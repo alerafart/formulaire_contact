@@ -11,22 +11,32 @@ if ($_SERVER["REQUEST_METHOD"]== "POST"){
 
     if(empty($firstName)){
         $firstNameError="Je veux connaître ton prénom!";
-    };
+    }
 
     if(empty($name)){
         $nameError="Et oui je veux tout savoir, même ton nom!";
-    };
+    }
 
-    if(empty($email)){
-        $emailError = "Je promets de pas t'envoyer de spam";
-    };
-    if(empty($phone)){
-        $phoneError="Je veux bien ton téléphone aussi";
-    };
+    if(!isPhone($phone)){
+        $phoneError="Que des chiffres stp, 10 attendues";
+    }
 
     if(empty($message)){
-        $message= "tu n'as rien a me dire? :-(";
-    };
+        $messageError= "tu n'as rien a me dire? :-(";
+    }
+
+    
+    if(!isEmail($email)){
+        $emailError = "ce n'est pas un mail valide";
+    }
+}
+
+function isPhone($var){
+    return preg_match('#^0[1-9]{1}\d{8}$#', $var);
+}
+
+function isEmail($var){
+    return filter_var($var, FILTER_VALIDATE_EMAIL);
 }
 
 function verifyInput($var){
@@ -87,7 +97,7 @@ function verifyInput($var){
                             
                             <div class="col-md-12">
                                 <label for="message">Message<span class="blue"> *</span></label>
-                                <textarea type="text" id="message" name="message" class="form-control" placeholder="Votre message" rows="4" value="<?php echo $message ?>"></textarea>
+                                <textarea id="message" name="message" class="form-control" placeholder="Votre message" rows="4" value="<?php echo $message ?>"></textarea>
                                 <p class="comments"><?php echo $messageError; ?></p>
                             </div>
 
