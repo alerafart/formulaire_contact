@@ -1,85 +1,3 @@
-<?php 
-
-$firstName = $name = $email = $phone = $message = "";
-$firstNameError= $nameError= $emailError=$phoneError = $messageError = "";
-$isSuccess = false;
-$emailTo = "ale_rafart@hotmail.com";
-
-if ($_SERVER["REQUEST_METHOD"]== "POST"){
-    $firstName= verifyInput($_POST["firstname"]) ;
-    $name= verifyInput($_POST["name"]);
-    $email= verifyInput($_POST["email"]);
-    $phone= verifyInput($_POST["phone"]);
-    $message= verifyInput($_POST["message"]);
-    $isSuccess = true;
-    $emailText = "";
-
-    if(empty($firstName)){
-        $firstNameError="Je veux connaître ton prénom!";
-        $isSuccess = false;
-    }
-    else{
-        $emailText .= "FirstName: $firstName\n";
-    }
-
-    if(empty($name)){
-        $nameError="Et oui je veux tout savoir, même ton nom!";
-        $isSuccess = false;
-    }
-    else{
-        $emailText .= "Name: $name\n";
-    }
-
-    if(!isEmail($email)){
-        $emailError = "ce n'est pas un mail valide";
-        $isSuccess = false;
-    }
-    else{
-        $emailText .= "Email : $email\n";
-    }
-
-    if(!isPhone($phone)){
-        $phoneError="Que des chiffres stp, 10 attendues";
-        $isSuccess = false;
-    }
-    else{
-        $emailText .= "Phone: $phone\n";
-    }
-
-    if(empty($message)){
-        $messageError= "tu n'as rien a me dire? :-(";
-        $isSuccess = false;
-    }
-    else{
-        $emailText .= "Message: $message\n";
-    }
-
-    
-    if ($isSuccess){
-        //envoyer
-        $headers= "From: $firstName $name <$email>\r\nReply-To: $email";
-        mail($emailTo, "Un message de votre formulaire", $emailText, $headers);
-        $firstName = $name = $email = $phone = $message = "";
-    }
-}
-
-function isPhone($var){
-    return preg_match('#^0[1-9]{1}\d{8}$#', $var);
-}
-
-function isEmail($var){
-    return filter_var($var, FILTER_VALIDATE_EMAIL);
-}
-
-function verifyInput($var){
-    $var = trim($var);
-    $var = stripslashes($var);
-    $var = htmlspecialchars($var);
-    return $var;
-}
-?>
-
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -91,6 +9,7 @@ function verifyInput($var){
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" ></script>
         <link href = "http///fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" >
         <link rel = "stylesheet" href="css/style.css">
+        <script src = "js/script.js"></script>
     </head>
     <body>
         <div class="container">
@@ -100,37 +19,37 @@ function verifyInput($var){
             </div>
             <div class ="row">
                 <div class="col-lg-10 col-lg-offset-1">
-                    <form id="contact-form" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" role="form">
+                    <form id="contact-form" method="post" action="" role="form">
                         <div class="row">
 
                             <div class="col-md-6">
                                 <label for="firstname">Prénom<span class="blue"> *</span></label>
-                                <input type="text" id="firstname" name="firstname" class="form-control" placeholder="Votre prénom" value="<?php echo $firstName; ?>">
-                                <p class="comments"><?= $firstNameError; ?></p>
+                                <input type="text" id="firstname" name="firstname" class="form-control" placeholder="Votre prénom" >
+                                <p class="comments"></p>
                             </div>
 
                             <div class="col-md-6">
                                 <label for="name">Nom<span class="blue"> *</span></label>
-                                <input type="text" id="name" name="name" class="form-control" placeholder="Votre nom" value="<?php echo $name;?>">
-                                <p class="comments"><?php echo $nameError; ?></p>
+                                <input type="text" id="name" name="name" class="form-control" placeholder="Votre nom">
+                                <p class="comments"></p>
                             </div>
                             
                             <div class="col-md-6">
                                 <label for="email">Email<span class="blue"> *</span></label>
-                                <input type="email" id="email" name="email" class="form-control" placeholder="Votre email" value="<?php echo $email; ?>">
-                                <p class="comments"><?php echo $emailError; ?></p>
+                                <input type="email" id="email" name="email" class="form-control" placeholder="Votre email">
+                                <p class="comments"></p>
                             </div>
 
                             <div class="col-md-6">
                                 <label for="phone">Téléphone</label>
-                                <input type="tel" id="phone" name="phone" class="form-control" placeholder="Votre Téléphone" value="<?php echo $phone; ?>">
-                                <p class="comments"><?php echo $phoneError; ?></p>
+                                <input type="tel" id="phone" name="phone" class="form-control" placeholder="Votre Téléphone" >
+                                <p class="comments"></p>
                             </div>
                             
                             <div class="col-md-12">
                                 <label for="message">Message<span class="blue"> *</span></label>
-                                <textarea id="message" name="message" class="form-control" placeholder="Votre message" rows="4" value="<?php echo $message ?>"></textarea>
-                                <p class="comments"><?php echo $messageError; ?></p>
+                                <textarea id="message" name="message" class="form-control" placeholder="Votre message" rows="4" ></textarea>
+                                <p class="comments"></p>
                             </div>
 
                             <div class="col-md-12">
@@ -141,10 +60,8 @@ function verifyInput($var){
                                 <input type="submit" class="button1" value="Envoyer">
                             </div>
 
-                            <p class="thank-you" style="display:<?php if($isSuccess) echo 'block'; else echo 'none'; ?>">Votre message a bien été envoyé, merci de m'avoir contactée :)</p>
                         </div>
                         
-
                     </form>
                 </div>
             </div>
