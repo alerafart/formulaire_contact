@@ -1,34 +1,34 @@
 <?php 
 
-$array = array('firstName'= '',
-'name'= '',
-'email'= '',
-'phone'= '',
-'message'= '',
-'firstNameError'= '',
-'nameError'= '',
-'phoneError'= '',
-'messageError'= '',
+$array = array('firstname'=> '',
+'name'=> '',
+'email'=> '',
+'phone'=> '',
+'message'=> '',
+'firstNameError'=> '',
+'nameError'=> '',
+'phoneError'=> '',
+'messageError'=> '',
 'isSuccess'=>false
-) 
+);
 
 $emailTo = "ale_rafart@hotmail.com";
 
 if ($_SERVER["REQUEST_METHOD"]== "POST"){
-    $array['firstName']= verifyInput($_POST["firstname"]) ;
+    $array['firstname']= verifyInput($_POST["firstname"]) ;
     $array['name']= verifyInput($_POST["name"]);
     $array['email']= verifyInput($_POST["email"]);
-    $array['email']= verifyInput($_POST["phone"]);
+    $array['phone']= verifyInput($_POST["phone"]);
     $array['message']= verifyInput($_POST["message"]);
     $array['isSuccess'] = true;
     $emailText = "";
 
-    if(empty($array['firstName'])){
+    if(empty($array['firstname'])){
         $array['firstNameError']="Je veux connaître ton prénom!";
         $array['isSuccess'] = false;
     }
     else{
-        $emailText .= "FirstName: {$array['firstName']}\n";
+        $emailText .= "FirstName: {$array['firstname']}\n";
     }
 
     if(empty($array['name'])){
@@ -36,18 +36,18 @@ if ($_SERVER["REQUEST_METHOD"]== "POST"){
         $array['isSuccess'] = false;
     }
     else{
-        $emailText .= "Name: $name\n";
+        $emailText .= "Name: {$array['name']}\n";
     }
 
     if(!isEmail($array['email'])){
         $array['emailError'] = "ce n'est pas un mail valide";
-        $array['isSuccess']s = false;
+        $array['isSuccess'] = false;
     }
     else{
         $emailText .= "Email : {$array['email']}\n";
     }
 
-    if(!isPhone($array['email'])){
+    if(!isPhone($array['phone'])){
         $array['phoneError']="Que des chiffres stp, 10 attendues";
         $array['isSuccess'] = false;
     }
@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"]== "POST"){
 
     if ($array['isSuccess']){
         //envoyer
-        $headers= "From: {$array['firstName']} {$array['name']} <{$array['email']}>\r\nReply-To: {$array['email']}";
+        $headers= "From: {$array['firstname']} {$array['name']} <{$array['email']}>\r\nReply-To: {$array['email']}";
         mail($emailTo, "Un message de votre formulaire", $emailText, $headers);
     }
     echo json_encode($array);
