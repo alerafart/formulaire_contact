@@ -1,13 +1,16 @@
 <?php 
 
-$array = array('firstname'=> '',
+$array = array(
+'firstname'=> '',
 'name'=> '',
 'email'=> '',
 'phone'=> '',
+'subject'=> '',
 'message'=> '',
 'firstNameError'=> '',
 'nameError'=> '',
 'phoneError'=> '',
+'subjectError'=> '',
 'messageError'=> '',
 'isSuccess'=>false
 );
@@ -19,6 +22,7 @@ if ($_SERVER["REQUEST_METHOD"]== "POST"){
     $array['name']= verifyInput($_POST["name"]);
     $array['email']= verifyInput($_POST["email"]);
     $array['phone']= verifyInput($_POST["phone"]);
+    $array['subject']= verifyInput($_POST["subject"]);
     $array['message']= verifyInput($_POST["message"]);
     $array['isSuccess'] = true;
     $emailText = "";
@@ -55,6 +59,11 @@ if ($_SERVER["REQUEST_METHOD"]== "POST"){
         $emailText .= "Phone:{$array['phone']}\n";
     }
 
+    if(empty($array['subject'])){
+        $array['subjectError']="Veuillez choisir un sujet";
+        $array['isSuccess'] = false;
+    }    
+
     if(empty($array['message'])){
         $array['messageError']= "tu n'as rien a me dire? :-(";
         $array['isSuccess'] = false;
@@ -66,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"]== "POST"){
     if ($array['isSuccess']){
         //envoyer
         $headers= "From: {$array['firstname']} {$array['name']} <{$array['email']}>\r\nReply-To: {$array['email']}";
-        mail($emailTo, "Un message de votre formulaire", $emailText, $headers);
+        mail($emailTo, $array['subject'], $emailText, $headers);
     }
     echo json_encode($array);
 }

@@ -23,6 +23,7 @@ $(function() {
                     $("#name + .comments").html(result.nameError);
                     $("#email + .comments").html(result.emailError);
                     $("#phone + .comments").html(result.phoneError);
+                    $("#subject + .comments").html(result.subjectError);
                     $("#message + .comments").html(result.messageError);
                 }
 

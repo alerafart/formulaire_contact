@@ -45,6 +45,18 @@
                                 <input type="tel" id="phone" name="phone" class="form-control" placeholder="Votre Téléphone" >
                                 <p class="comments"></p>
                             </div>
+
+                            <div class="col-md-12">
+                                <label for="subject">Sujet<span class="blue"> *</span></label>
+                                <select class="form-control" name="subject" id="subject">
+                                    <option value="">Quel est le sujet de votre message?</option>
+                                    <option value="Je voudrais plus des informations sur vos services">Je voudrais plus des informations sur vos services</option>
+                                    <option value="J'aimerais recevoir un devis">J'aimerais recevoir un devis</option>
+                                    <option value="Autre message du site">Autre</option>                                
+                                </select>
+                                <p class="comments"></p>
+
+                            </div>
                             
                             <div class="col-md-12">
                                 <label for="message">Message<span class="blue"> *</span></label>
